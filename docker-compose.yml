@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - /app/node_modules/
+      - ./:/app/
+    security_opt:
+      - seccomp=chrome.json

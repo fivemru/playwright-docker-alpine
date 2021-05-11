@@ -1,0 +1,49 @@
+FROM alpine:3.13
+
+# Install Chrome and tini
+USER root
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/main" >> /etc/apk/repositories \
+    && apk upgrade -U -a \
+    && apk add \
+    libstdc++ \
+    chromium \
+    harfbuzz \
+    nss \
+    freetype \
+    ttf-freefont \
+    font-noto-emoji \
+    wqy-zenhei \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
+
+COPY local.conf /etc/fonts/local.conf
+
+# Playwright
+ENV CHROME_BIN=/usr/bin/chromium-browser \
+    CHROME_PATH=/usr/lib/chromium/ \
+    PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+
+# Install node, tini
+USER root
+RUN apk add --no-cache tini nodejs nodejs-npm
+    # && rm -rf /var/cache/* \
+    # && mkdir /var/cache/apk
+
+# Add Chrome as a user
+RUN mkdir -p /app \
+    && adduser -D node \
+    && chown -R node:node /app
+
+# App
+USER node
+WORKDIR /app
+
+COPY --chown=node package.json package-lock.json ./
+RUN npm i
+COPY --chown=node  ./ ./
+
+ENTRYPOINT ["tini", "--"]
+CMD [ "node", "index.js" ]

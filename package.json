@@ -1,0 +1,24 @@
+{
+  "name": "playwright-docker-alpine",
+  "description": "- Small size **477MB** - `Dockerfile` based on official `node:14.16-alpine` image - With `seccomp` profile for Chrome (`chrome.json`, thanks to [Jessie Frazelle](https://github.com/jessfraz)) - Under `node` user.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "playwright",
+    "docker",
+    "alpine",
+    "chrome",
+    "chromium",
+    "node",
+    "nodejs",
+    "node.js"
+  ],
+  "author": "fivem",
+  "license": "ISC",
+  "dependencies": {
+    "playwright-chromium": "^1.11.0"
+  }
+}
