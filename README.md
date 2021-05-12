@@ -1,4 +1,4 @@
-# Playwright Docker Alpine Base On Node.JS Image
+# Playwright Docker Alpine With Node.JS
 
 ## v1 - based on `node:14.16-alpine` (477MB)
 
