@@ -29,10 +29,8 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 # Install node, tini
 USER root
 RUN apk add --no-cache tini nodejs nodejs-npm
-    # && rm -rf /var/cache/* \
-    # && mkdir /var/cache/apk
 
-# Add Chrome as a user
+# Add node user
 RUN mkdir -p /app \
     && adduser -D node \
     && chown -R node:node /app
